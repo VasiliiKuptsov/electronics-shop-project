@@ -1,4 +1,6 @@
 from src.item import Item
+from settings import DATA_PATH
+import csv
 
 if __name__ == '__main__':
     item = Item('Телефон', 10000, 5)
@@ -10,7 +12,10 @@ if __name__ == '__main__':
     # длина наименования товара больше 10 символов
     item.name = 'СуперСмартфон'
     # Exception: Длина наименования товара превышает 10 символов.
-
+    print(item.name)
+    path = DATA_PATH
+    with open(path, 'r', newline = '') as csvfile:
+        reader = csv.DictReader(csvfile)
     Item.instantiate_from_csv()  # создание объектов из данных файла
     assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
 
