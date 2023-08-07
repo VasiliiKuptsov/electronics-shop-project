@@ -60,5 +60,13 @@ class Item:
         return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity}, {self.number_of_sim})"
 
     def __str__(self):
+
         return (self.__name)
 
+#class Keybord:
+
+#    def __init__(self, language):
+        self.language = language
+
+
+#    def change_lang():
