@@ -45,12 +45,18 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open(path, 'r', newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
+        #raise FileNotFoundError('отсутствует файл items.csv')
+        try:
+
+            with open(path, 'r', newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+        except FileNotFoundError:
+            print("FileNotFoundError: отсутствует файл items.csv")
+
             for reader_ in reader:
                 all_ = [reader_['name'], reader_['price'], reader_['quantity']]
                 cls.all.append(all_)
-        return
+            return
 
     @staticmethod
     def string_to_number(number: str) -> int:
@@ -63,10 +69,21 @@ class Item:
 
         return (self.__name)
 
-#class Keybord:
+    #@staticmethod
 
-#    def __init__(self, language):
-        self.language = language
+    #def instantiate_from_csv():
+
+        try:
+            with open(path, "rb") as file:
+
+                file_csv = file.read()
+                print(file_csv)
+        except FileNotFoundError:
+            print("FileNotFoundError: отсутствует файл items.csv")
+            return None
+        else:
+            print('Продолжение работы программы...')
 
 
-#    def change_lang():
+
+
