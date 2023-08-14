@@ -54,8 +54,11 @@ class Item:
             print("FileNotFoundError: отсутствует файл items.csv")
 
             for reader_ in reader:
+                print(reader_)
+                if reader_['quantity'] == None:
+                    raise InstantiateCSVError
                 all_ = [reader_['name'], reader_['price'], reader_['quantity']]
-        except  InstantiateCSVError:
+
                 cls.all.append(all_)
         return
 
@@ -72,12 +75,16 @@ class Item:
 
 
 class InstantiateCSVError(Exception):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else 'InstantiateCSVError: Файл item.csv поврежден'
+
+    def __str__(self):
+        return self.message
     #@staticmethod
 
     #def instantiate_from_csv():
 
-        try:
+        """try:
             with open(path, "rb") as file:
 
                 file_csv = file.read()
@@ -86,7 +93,7 @@ class InstantiateCSVError(Exception):
             print("FileNotFoundError: отсутствует файл items.csv")
             return None
         else:
-            print('Продолжение работы программы...')
+            print('Продолжение работы программы...')"""
 
 
 
