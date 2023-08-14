@@ -55,8 +55,9 @@ class Item:
 
             for reader_ in reader:
                 all_ = [reader_['name'], reader_['price'], reader_['quantity']]
+        except  InstantiateCSVError:
                 cls.all.append(all_)
-            return
+        return
 
     @staticmethod
     def string_to_number(number: str) -> int:
@@ -69,6 +70,9 @@ class Item:
 
         return (self.__name)
 
+
+class InstantiateCSVError(Exception):
+    def __init__(self):
     #@staticmethod
 
     #def instantiate_from_csv():
