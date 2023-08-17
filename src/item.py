@@ -19,6 +19,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+        Item.all.append(self)
 
 
     def calculate_total_price(self) -> float:
@@ -44,56 +45,55 @@ class Item:
             self.__name = name_
 
     @classmethod
-    def instantiate_from_csv(cls):
-        #raise FileNotFoundError('отсутствует файл items.csv')
-        try:
+    def instantiate_from_csv(cls, file = 'items.csv'):
+        ROOT = Path(__file__).parent
+        DATA_PATH = Path.joinpath(ROOT, file)
+        path = DATA_PATH
+        Item.all.clear()
 
+        try:
             with open(path, 'r', newline='') as csvfile:
                 reader = csv.DictReader(csvfile)
+                if reader.fieldnames[0] == 'name' and reader.fieldnames[1] =='price' and reader.fieldnames[2] == 'quantity':
+
+
+                    for reader_ in reader:
+                        if reader_['quantity'] == None or reader_['name'] == None or reader_['price'] == None:
+                            raise InstantiateCSVError('Файл item.csv поврежден')
+                        else:
+                            cls(name=reader_['name'], price=reader_['price'], quantity=reader_['quantity'])
+                else:
+                    raise InstantiateCSVError('Файл item.csv поврежден')
+
         except FileNotFoundError:
             print("FileNotFoundError: отсутствует файл items.csv")
-
-            for reader_ in reader:
-                print(reader_)
-                if reader_['quantity'] == None:
-                    raise InstantiateCSVError
-                all_ = [reader_['name'], reader_['price'], reader_['quantity']]
-
-                cls.all.append(all_)
+        except InstantiateCSVError as e:
+            print(e)
         return
 
     @staticmethod
     def string_to_number(number: str) -> int:
         return int(float(number))
 
+
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity}, {self.number_of_sim})"
 
-    def __str__(self):
 
+    def __str__(self):
         return (self.__name)
 
 
 class InstantiateCSVError(Exception):
-    def __init__(self, *args, **kwargs):
-        self.message = args[0] if args else 'InstantiateCSVError: Файл item.csv поврежден'
+
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = message
+
 
     def __str__(self):
         return self.message
-    #@staticmethod
 
-    #def instantiate_from_csv():
-
-        """try:
-            with open(path, "rb") as file:
-
-                file_csv = file.read()
-                print(file_csv)
-        except FileNotFoundError:
-            print("FileNotFoundError: отсутствует файл items.csv")
-            return None
-        else:
-            print('Продолжение работы программы...')"""
 
 
 
