@@ -51,25 +51,25 @@ class Item:
         path = DATA_PATH
         Item.all.clear()
 
-        try:
-            with open(path, 'r', newline='') as csvfile:
-                reader = csv.DictReader(csvfile)
-                if reader.fieldnames[0] == 'name' and reader.fieldnames[1] =='price' and reader.fieldnames[2] == 'quantity':
+        #try:
+        with open(path, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            if reader.fieldnames[0] == 'name' and reader.fieldnames[1] =='price' and reader.fieldnames[2] == 'quantity':
 
 
-                    for reader_ in reader:
-                        if reader_['quantity'] == None or reader_['name'] == None or reader_['price'] == None:
-                            raise InstantiateCSVError('Файл item.csv поврежден')
-                        else:
-                            cls(name=reader_['name'], price=reader_['price'], quantity=reader_['quantity'])
-                else:
-                    raise InstantiateCSVError('Файл item.csv поврежден')
+                for reader_ in reader:
+                    if reader_['quantity'] == None or reader_['name'] == None or reader_['price'] == None:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+                    else:
+                        cls(name=reader_['name'], price=reader_['price'], quantity=reader_['quantity'])
+            else:
+                raise InstantiateCSVError('Файл item.csv поврежден')
 
-        except FileNotFoundError:
-            print("FileNotFoundError: отсутствует файл items.csv")
-        except InstantiateCSVError as e:
-            print(e)
-        return
+        #except FileNotFoundError:
+         #   print("FileNotFoundError: отсутствует файл items.csv")
+        #except InstantiateCSVError as e:
+         #   print(e)
+        #return
 
     @staticmethod
     def string_to_number(number: str) -> int:
